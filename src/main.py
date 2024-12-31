@@ -8,9 +8,8 @@ load_dotenv()
 
 from src.services.claude_service import ClaudeService
 from src.agents.nba_agent import NBAAgent
-
+from src.agents.evaluator_agent import EvaluatorAgent
 from src.tools.nba_tool_schema import nba_tools
-from src.tools.tweeter_tool_schema import tweeter_tools
 
 
 def setup_logging():
@@ -58,9 +57,12 @@ async def main():
         tool_schemas=nba_tools,
         tool_module_path="src.tools.nba_tools",
     )
+    evaluator_agent = EvaluatorAgent(
+        claude_service=claude_service,
+    )
     _logger.info("Agent initialized successfully")
 
-    bot = NBAStatsBot(nba_agent=nba_agent)
+    bot = NBAStatsBot(nba_agent=nba_agent, evaluator_agent=evaluator_agent)
     await bot.start(discord_token)
 
 
