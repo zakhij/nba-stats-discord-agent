@@ -12,8 +12,8 @@ class BaseAgent(ABC):
     def __init__(
         self,
         claude_service: ClaudeService,
-        tool_schemas: Optional[List[Dict[str, Any]]] = None,
-        tool_module_path: Optional[str] = None,  # e.g., "src.tools.nba_tools"
+        tool_schemas: List[Dict[str, Any]],
+        tool_module_path: str,  # e.g., "src.tools.nba_tools"
     ):
         self.claude_service = claude_service
         self.tool_schemas = tool_schemas

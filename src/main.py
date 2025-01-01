@@ -10,6 +10,7 @@ from src.services.claude_service import ClaudeService
 from src.agents.nba_agent import NBAAgent
 from src.agents.evaluator_agent import EvaluatorAgent
 from src.tools.nba_tool_schema import nba_tools
+from src.tools.evaluator_tool_schema import evaluator_tools
 
 
 def setup_logging():
@@ -28,7 +29,9 @@ def setup_logging():
         "httpcore",
         "requests_oauthlib",
         "oauthlib",
-        "tweepy",
+        "discord.gateway",
+        "discord.http",
+        "discord.client",
     ]
 
     for logger_name in noisy_loggers:
@@ -59,6 +62,8 @@ async def main():
     )
     evaluator_agent = EvaluatorAgent(
         claude_service=claude_service,
+        tool_schemas=evaluator_tools,
+        tool_module_path="src.tools.evaluator_tools",
     )
     _logger.info("Agent initialized successfully")
 
