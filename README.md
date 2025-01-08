@@ -7,7 +7,8 @@ An agentic Discord bot that answers NBA-related statistical queries. Uses Anthro
 
 The project uses two main agents:
 - `NBAAgent`: The "basketball expert" equipped with tools that map to NBA Stats API endpoints. When a query comes in, it selects and executes the appropriate tools and returns the NBA statistical data.
-- `EvaluatorAgent`: Takes the data returned by the NBA agent, sanity-checks it as an LLM judge, and then tweets out the response.
+- `EvaluatorAgent`: Takes the data returned by the NBA agent, sanity-checks it as an LLM judge, and then outputs a message to the user.
+
 
 
 

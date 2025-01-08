@@ -32,6 +32,7 @@ def setup_logging():
         "discord.gateway",
         "discord.http",
         "discord.client",
+        "discord.webhook",
     ]
 
     for logger_name in noisy_loggers:
@@ -65,10 +66,21 @@ async def main():
         tool_schemas=evaluator_tools,
         tool_module_path="src.tools.evaluator_tools",
     )
-    _logger.info("Agent initialized successfully")
+    _logger.info("Agents initialized successfully")
 
-    bot = NBAStatsBot(nba_agent=nba_agent, evaluator_agent=evaluator_agent)
-    await bot.start(discord_token)
+    bot = NBAStatsBot(
+        nba_agent=nba_agent,
+        evaluator_agent=evaluator_agent,
+    )
+
+    try:
+        _logger.info("Starting bot...")
+        await bot.start(discord_token)
+    except Exception as e:
+        _logger.error(f"Failed to start bot: {e}", exc_info=True)
+    finally:
+        if not bot.is_closed():
+            await bot.close()
 
 
 def run():

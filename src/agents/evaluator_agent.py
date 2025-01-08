@@ -5,7 +5,7 @@ class EvaluatorAgent(BaseAgent):
     SYSTEM_PROMPT = """
     Your role is to evaluate the NBA information for relevance to the original question and
     output a concise, neutral message to the user based on the NBA response.
-    If the NBA response is not relevant, output a message saying so.
+    If the NBA response is not relevant, output "Sorry, I can't help with that. I only answer questions about the NBA."
     """
 
     def evaluate_nba_response(self, original_message: str, nba_response: str) -> str:
