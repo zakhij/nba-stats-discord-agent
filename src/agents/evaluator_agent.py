@@ -1,4 +1,5 @@
 from src.agents.base_agent import BaseAgent
+import asyncio
 
 
 class EvaluatorAgent(BaseAgent):
@@ -8,7 +9,9 @@ class EvaluatorAgent(BaseAgent):
     If the NBA response is not relevant, output "Sorry, I can't help with that. I only answer questions about the NBA."
     """
 
-    def evaluate_nba_response(self, original_message: str, nba_response: str) -> str:
+    async def evaluate_nba_response(
+        self, original_message: str, nba_response: str
+    ) -> str:
         messages = [
             {
                 "role": "user",
@@ -18,12 +21,18 @@ class EvaluatorAgent(BaseAgent):
                 """,
             }
         ]
-        response = self.claude_service.create_message(
-            system_prompt=self.SYSTEM_PROMPT,
-            messages=messages,
-            tools=self.tool_schemas,
-            tool_choice={"type": "any"},
+
+        # Run Claude service in executor, it does not support async natively
+        response = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: self.claude_service.create_message(
+                system_prompt=self.SYSTEM_PROMPT,
+                messages=messages,
+                tools=self.tool_schemas,
+                tool_choice={"type": "any"},
+            ),
         )
+
         if response.stop_reason == "tool_use":
             tool_use = next(
                 block for block in response.content if block.type == "tool_use"

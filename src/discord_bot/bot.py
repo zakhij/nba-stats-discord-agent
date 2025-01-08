@@ -34,9 +34,9 @@ class NBAStatsBot(commands.Bot):
         await interaction.response.defer(thinking=True)
 
         try:
-            response = self.nba_agent.get_nba_response(question)
+            response = await self.nba_agent.get_nba_response(question)
             if response:
-                curated_response = self.evaluator_agent.evaluate_nba_response(
+                curated_response = await self.evaluator_agent.evaluate_nba_response(
                     question, response
                 )
                 await interaction.followup.send(

@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 from typing import Optional
 from src.agents.base_agent import BaseAgent
+import asyncio
 
 _logger = logging.getLogger(__name__)
 
@@ -19,7 +20,7 @@ class NBAAgent(BaseAgent):
     """
     MAX_TURNS = 6
 
-    def get_nba_response(
+    async def get_nba_response(
         self, user_message: str, tool_choice_type: str = "any"
     ) -> Optional[str]:
         messages = [{"role": "user", "content": user_message}]
@@ -40,11 +41,16 @@ class NBAAgent(BaseAgent):
                     return None
 
                 _logger.debug(f"Turn {turn_count}")
-                response = self.claude_service.create_message(
-                    system_prompt=self.SYSTEM_PROMPT,
-                    messages=messages,
-                    tools=self.get_tool_schemas() or [],
-                    tool_choice={"type": tool_choice_type},
+
+                # Run Claude service in executor, it does not support async natively
+                response = await asyncio.get_event_loop().run_in_executor(
+                    None,
+                    lambda: self.claude_service.create_message(
+                        system_prompt=self.SYSTEM_PROMPT,
+                        messages=messages,
+                        tools=self.get_tool_schemas() or [],
+                        tool_choice={"type": tool_choice_type},
+                    ),
                 )
 
                 for block in response.content:
