@@ -59,11 +59,11 @@ params = {
     },
     "date_from": {
         "type": "string",
-        "description": "Start date in format YYYY-MM-DD",
+        "description": "Start date in format MM/DD/YYYY",
     },
     "date_to": {
         "type": "string",
-        "description": "End date in format YYYY-MM-DD",
+        "description": "End date in format MM/DD/YYYY",
     },
     "game_id": {
         "type": "string",
