@@ -127,30 +127,6 @@ def get_league_standings(
     return standings.get_json()
 
 
-def get_team_game_logs(
-    team_id: int,
-    date_from: Optional[str] = None,
-    date_to: Optional[str] = None,
-    season_type: Optional[str] = None,
-) -> str:
-    """
-    Fetches detailed game logs for a team including basic stats and rankings.
-    Returns the data in JSON format.
-    """
-    kwargs: dict[str, int | str] = {
-        "team_id_nullable": team_id,
-    }
-    if date_from is not None:
-        kwargs["date_from_nullable"] = date_from
-    if date_to is not None:
-        kwargs["date_to_nullable"] = date_to
-    if season_type is not None:
-        kwargs["season_type_nullable"] = season_type
-
-    logs = teamgamelogs.TeamGameLogs(**kwargs)
-    return logs.get_json()
-
-
 def get_box_score_summary(game_id: str) -> str:
     """
     Gets comprehensive game summary including line scores, team stats,

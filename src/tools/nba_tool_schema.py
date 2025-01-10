@@ -111,20 +111,6 @@ nba_tools = [
         },
     },
     {
-        "name": "get_team_game_logs",
-        "description": "Fetches detailed game logs for a team including basic stats and rankings.",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "team_id": params["team_id"],
-                "date_from": params["date_from"],
-                "date_to": params["date_to"],
-                "season_type": params["season_type"],
-            },
-            "required": ["team_id"],
-        },
-    },
-    {
         "name": "get_box_score_summary",
         "description": "Gets comprehensive game summary including line scores, team stats, officials, and game info.",
         "input_schema": {
