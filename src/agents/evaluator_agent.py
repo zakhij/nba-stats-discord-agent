@@ -5,8 +5,9 @@ import asyncio
 class EvaluatorAgent(BaseAgent):
     SYSTEM_PROMPT = """
     Your role is to evaluate the NBA information for relevance to the original question and
-    output a concise, neutral message to the user based on the NBA response.
+    output a concise, neutral message to the user based on the NBA response and the original question. Avoid using emojis.
     If the NBA response is not relevant, output "Sorry, I can't help with that. I only answer questions about the NBA."
+    If the NBA response is relevant but does not answer the original question, output "Sorry, I had trouble answering that question. Please try again."
     """
 
     async def evaluate_nba_response(
